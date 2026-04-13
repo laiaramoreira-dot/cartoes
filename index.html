@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Papéis Horizontal Hover</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background-color: #4B0082; /* Roxo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1200px;
+  }
+
+  .circle {
+    position: relative;
+    width: 450px; /* Aumentado levemente para caber a expansão */
+    height: 450px;
+    background-color: #FFA500;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .paper {
+    position: absolute;
+    width: 150px;
+    height: 220px;
+    background-color: #ffffff;
+    border-radius: 25px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    transform-style: preserve-3d;
+    /* Transição suave para o movimento horizontal */
+    transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s;
+  }
+
+  /* --- ESTADO INICIAL (Empilhados/Leque Curto) --- */
+  .paper:nth-child(1) {
+    z-index: 1;
+    transform: rotateZ(-5deg) translateX(-15px) translateZ(-20px);
+  }
+
+  .paper:nth-child(2) {
+    z-index: 2;
+    transform: rotateZ(0deg) translateZ(0px);
+  }
+
+  .paper:nth-child(3) {
+    z-index: 3;
+    transform: rotateZ(5deg) translateX(15px) translateZ(20px);
+  }
+
+  /* --- ESTADO HOVER (Alinhamento Horizontal Separado) --- */
+  .circle:hover .paper {
+    transform: rotateZ(0deg) translateY(0px) translateZ(50px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+  }
+
+  /* Posicionamento individual no eixo X ao passar o mouse */
+  .circle:hover .paper:nth-child(1) {
+    transform: translateX(-170px) rotateZ(0deg) translateZ(50px);
+  }
+
+  .circle:hover .paper:nth-child(2) {
+    transform: translateX(0px) rotateZ(0deg) translateZ(50px);
+  }
+
+  .circle:hover .paper:nth-child(3) {
+    transform: translateX(170px) rotateZ(0deg) translateZ(50px);
+  }
+
+  /* Canto dobrado apenas na folha da direita (3) no hover ou na de cima */
+  .paper:nth-child(3)::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 35px;
+    height: 35px;
+    background: linear-gradient(135deg, #ddd 45%, #fff 50%);
+    clip-path: polygon(100% 0, 100% 100%, 0 0);
+    border-radius: 0 25px 0 0;
+  }
+
+  /* Brilho interno */
+  .paper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 25px;
+    background: linear-gradient(145deg, rgba(255,255,255,1) 0%, rgba(240,240,240,0.2) 100%);
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+  <div class="circle">
+    <div class="paper"></div>
+    <div class="paper"></div>
+    <div class="paper"></div>
+  </div>
+</body>
+</html>
