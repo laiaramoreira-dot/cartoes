@@ -3,22 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Papéis Horizontal Hover</title>
+<title>Cartões com Descrição</title>
 <style>
   body {
     margin: 0;
     height: 100vh;
-    background-color: #4B0082; /* Roxo */
+    background-color: #4B0082;
     display: flex;
     justify-content: center;
     align-items: center;
-    perspective: 1200px;
+    perspective: 2000px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 
   .circle {
     position: relative;
-    width: 450px; /* Aumentado levemente para caber a expansão */
-    height: 450px;
+    width: 600px;
+    height: 500px;
     background-color: #FFA500;
     border-radius: 50%;
     display: flex;
@@ -29,80 +30,82 @@
 
   .paper {
     position: absolute;
-    width: 150px;
-    height: 220px;
+    width: 170px; /* Aumentado levemente para o texto */
+    height: 240px;
     background-color: #ffffff;
-    border-radius: 25px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    transform-style: preserve-3d;
-    /* Transição suave para o movimento horizontal */
-    transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s;
+    border-radius: 12px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+    transform: rotateX(50deg) rotateZ(35deg) skewX(-10deg);
+    transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+    
+    /* Ajuste para conter Título e Descrição */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    box-sizing: border-box;
+    text-align: center;
   }
 
-  /* --- ESTADO INICIAL (Empilhados/Leque Curto) --- */
-  .paper:nth-child(1) {
-    z-index: 1;
-    transform: rotateZ(-5deg) translateX(-15px) translateZ(-20px);
+  /* Estilização do Texto */
+  .paper h2 {
+    margin: 0;
+    font-size: 50px;
+    color: #333;
+    opacity: 0;
+    transition: opacity 0.5s;
   }
 
-  .paper:nth-child(2) {
-    z-index: 2;
-    transform: rotateZ(0deg) translateZ(0px);
+  .paper p {
+    margin: 10px 0 0 0;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+    opacity: 0;
+    transition: opacity 0.5s;
   }
 
-  .paper:nth-child(3) {
-    z-index: 3;
-    transform: rotateZ(5deg) translateX(15px) translateZ(20px);
+  /* Revela o texto no Hover */
+  .circle:hover .paper h2,
+  .circle:hover .paper p {
+    opacity: 1;
   }
 
-  /* --- ESTADO HOVER (Alinhamento Horizontal Separado) --- */
+  /* --- POSIÇÃO INICIAL --- */
+  .paper:nth-child(1) { z-index: 1; transform: rotateX(50deg) rotateZ(35deg) skewX(-10deg) translate(30px, 30px); }
+  .paper:nth-child(2) { z-index: 2; transform: rotateX(50deg) rotateZ(35deg) skewX(-10deg) translate(0, 0); }
+  .paper:nth-child(3) { z-index: 3; transform: rotateX(50deg) rotateZ(35deg) skewX(-10deg) translate(-30px, -30px); }
+
+  /* --- ESTADO HOVER --- */
   .circle:hover .paper {
-    transform: rotateZ(0deg) translateY(0px) translateZ(50px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    transform: rotateX(0deg) rotateZ(0deg) skewX(0deg);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
   }
 
-  /* Posicionamento individual no eixo X ao passar o mouse */
-  .circle:hover .paper:nth-child(1) {
-    transform: translateX(-170px) rotateZ(0deg) translateZ(50px);
-  }
+  .circle:hover .paper:nth-child(1) { transform: translateX(190px); }
+  .circle:hover .paper:nth-child(2) { transform: translateX(0px); }
+  .circle:hover .paper:nth-child(3) { transform: translateX(-190px); }
 
-  .circle:hover .paper:nth-child(2) {
-    transform: translateX(0px) rotateZ(0deg) translateZ(50px);
-  }
-
-  .circle:hover .paper:nth-child(3) {
-    transform: translateX(170px) rotateZ(0deg) translateZ(50px);
-  }
-
-  /* Canto dobrado apenas na folha da direita (3) no hover ou na de cima */
-  .paper:nth-child(3)::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 35px;
-    height: 35px;
-    background: linear-gradient(135deg, #ddd 45%, #fff 50%);
-    clip-path: polygon(100% 0, 100% 100%, 0 0);
-    border-radius: 0 25px 0 0;
-  }
-
-  /* Brilho interno */
-  .paper::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 25px;
-    background: linear-gradient(145deg, rgba(255,255,255,1) 0%, rgba(240,240,240,0.2) 100%);
-    pointer-events: none;
-  }
+  .paper { border: 1px solid rgba(0,0,0,0.1); }
 </style>
 </head>
 <body>
   <div class="circle">
-    <div class="paper"></div>
-    <div class="paper"></div>
-    <div class="paper"></div>
+    <div class="paper">
+      <h2>A</h2>
+      <p>Espaço para informações rápidas ou títulos curtos.</p>
+    </div>
+
+    <div class="paper">
+      <h2>B</h2>
+      <p>Ideal para descrições de produtos ou serviços.</p>
+    </div>
+
+    <div class="paper">
+      <h2>C</h2>
+      <p>Perfeito para links ou pequenos botões de ação.</p>
+    </div>
   </div>
 </body>
 </html>
